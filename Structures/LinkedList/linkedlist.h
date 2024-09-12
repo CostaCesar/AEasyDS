@@ -22,7 +22,7 @@ void LinkedList_Free(LinkedList* free_list);
 void LinkedList_PushFront(LinkedList* insert_list, void* data);
 void LinkedList_PushBack(LinkedList* insert_list, void* data);
 
-void* LinkedList_Peek(const LinkedList* search_list, uint32_t index);
+void* LinkedList_Peek(const LinkedList* get_list, uint32_t index);
 void* LinkedList_PeekFront(const LinkedList* get_list);
 void* LinkedList_PeekBack(const LinkedList* get_list);
 

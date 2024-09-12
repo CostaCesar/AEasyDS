@@ -76,12 +76,12 @@ void LinkedList_PushBack(LinkedList* insert_list, void* data)
     }
     return;
 }
-void* LinkedList_Peek(const LinkedList* search_list, uint32_t index)
+void* LinkedList_Peek(const LinkedList* get_list, uint32_t index)
 {
-    if(index < 0 || index >= search_list->size)
+    if(index < 0 || index >= get_list->size)
         return NULL;
 
-    LinkedNode *output = search_list->start;
+    LinkedNode *output = get_list->start;
     for(size_t i = 0; i < index; i++)
         output = output->next;
     return output->data;
