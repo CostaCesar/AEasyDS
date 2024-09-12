@@ -19,6 +19,7 @@ LinkedList LinkedList_Create();
 uint32_t LinkedList_IsEmpty(const LinkedList* list);
 void LinkedList_Free(LinkedList* free_list);
 
+void LinkedList_Push(LinkedList* insert_list, uint32_t index, void* data);
 void LinkedList_PushFront(LinkedList* insert_list, void* data);
 void LinkedList_PushBack(LinkedList* insert_list, void* data);
 

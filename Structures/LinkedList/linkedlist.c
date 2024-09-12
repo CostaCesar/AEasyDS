@@ -45,6 +45,31 @@ void LinkedList_Free(LinkedList* free_list)
     return;
 }
 
+void LinkedList_Push(LinkedList* insert_list, uint32_t index, void* data)
+{
+    if(index > insert_list->size) return;
+    else if (index == 0)
+    {
+        LinkedList_PushFront(insert_list, data);
+        return;
+    }
+
+    LinkedNode* parent = insert_list->start;
+    for (int i = 1; i < index; i++)
+    {
+        parent = parent->next;
+    }
+
+    LinkedNode* new_node = CreateLinkedNode();
+    if(!new_node) return;
+
+    insert_list->size++;
+    new_node->data = data;
+    new_node->next = parent->next;
+    parent->next = new_node;
+    
+    return; 
+}
 void LinkedList_PushFront(LinkedList* insert_list, void* data)
 {
     LinkedNode* new_node = CreateLinkedNode();
@@ -59,22 +84,7 @@ void LinkedList_PushFront(LinkedList* insert_list, void* data)
 }
 void LinkedList_PushBack(LinkedList* insert_list, void* data)
 {
-    LinkedNode* new_node = CreateLinkedNode();
-    if(!new_node) return;
-
-    insert_list->size++;
-    new_node->data = data;
-    new_node->next = NULL;
-
-    LinkedNode* last_node = insert_list->start;
-    if(!last_node) insert_list->start = new_node;
-    else
-    {
-        for(last_node; last_node->next; last_node = last_node->next);
-        last_node->next = new_node;
-
-    }
-    return;
+    LinkedList_Push(insert_list, insert_list->size, data);
 }
 void* LinkedList_Peek(const LinkedList* get_list, uint32_t index)
 {
