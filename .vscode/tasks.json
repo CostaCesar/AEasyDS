@@ -2,14 +2,21 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
-			"type": "cppbuild",
 			"label": "Build Project",
-			"command": "/usr/bin/gcc",
+
+			// Put the path to your g++ compiler here
+			"windows": {
+				"command": "C:\\msys64\\mingw64\\bin\\gcc.exe"
+			},
+			"linux": {
+				"command": "/usr/bin/gcc"
+			},
+
 			"args": [
 				"-fdiagnostics-color=always",
 				"-g",
 				"viewer.c",
-				"Structures/LinkedList/linkedlist.c",
+				"Structures/LinkedList/**.c",
 				"-o",
 				"build/viewer"
 			],
