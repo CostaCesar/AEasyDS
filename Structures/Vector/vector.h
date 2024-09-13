@@ -9,8 +9,8 @@ typedef struct
    size_t size;
 } Vector;
 
-Vector Vector_Create();
-Vector Vector_CreateEmpty(size_t vector_size);
+Vector Vector_Create(size_t vector_size);
+Vector Vector_CreateEmpty();
 uint32_t Vector_IsEmpty(const Vector* Vector);
 void Vector_Free(Vector* free_vector);
 
