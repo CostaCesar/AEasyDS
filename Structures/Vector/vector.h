@@ -14,6 +14,7 @@ Vector Vector_Create(size_t element_size, size_t vector_size);
 Vector Vector_CreateEmpty(size_t element_size);
 uint32_t Vector_IsEmpty(const Vector* Vector);
 void Vector_Free(Vector* free_vector);
+void Vector_Destroy(Vector* destroy_vector);
 
 void Vector_Push(Vector* insert_vector, size_t index, void* data);
 void Vector_PushFront(Vector* insert_vector, void* data);
