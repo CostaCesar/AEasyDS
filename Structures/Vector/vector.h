@@ -16,13 +16,13 @@ uint32_t Vector_IsEmpty(const Vector* Vector);
 void Vector_Free(Vector* free_vector);
 void Vector_Destroy(Vector* destroy_vector);
 
-void Vector_Push(Vector* insert_vector, size_t index, void* data);
-void Vector_PushFront(Vector* insert_vector, void* data);
-void Vector_PushBack(Vector* insert_vector, void* data);
+void Vector_Push(Vector* insert_vector, size_t index, const void* data);
+void Vector_PushFront(Vector* insert_vector, const void* data);
+void Vector_PushBack(Vector* insert_vector, const void* data);
 
-void* Vector_Peek(Vector* peek_vector, size_t index);
-void* Vector_PeekFront(Vector* peek_vector);
-void* Vector_PeekBack(Vector* peek_vector);
+const void* Vector_Peek(const Vector* peek_vector, size_t index);
+const void* Vector_PeekFront(const Vector* peek_vector);
+const void* Vector_PeekBack(const Vector* peek_vector);
 
 uint32_t Vector_CheckData(const Vector* search_vector, const void* search_key,
     uint32_t (*comparator_function)(const void*,const void*));
