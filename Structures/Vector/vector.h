@@ -6,11 +6,12 @@
 typedef struct
 {
    void* data;
-   size_t size;
+   size_t count;
+   size_t data_size;
 } Vector;
 
-Vector Vector_Create(size_t vector_size);
-Vector Vector_CreateEmpty();
+Vector Vector_Create(size_t element_size, size_t vector_size);
+Vector Vector_CreateEmpty(size_t element_size);
 uint32_t Vector_IsEmpty(const Vector* Vector);
 void Vector_Free(Vector* free_vector);
 
