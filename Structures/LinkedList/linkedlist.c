@@ -121,10 +121,10 @@ uint32_t LinkedList_GetIndex(const LinkedList* search_list, const void* search_k
     for(LinkedNode* node = search_list->start; node != NULL; node = node->next)
     {
         if(comparator_function(search_key, node))
-            break;
+            return index;
         else index++;
     }
-    return index;
+    return UINT32_MAX;
 }
 void LinkedList_Pop(LinkedList* pop_list, uint32_t index)
 {
@@ -177,7 +177,9 @@ void LinkedList_Join(LinkedList* destiny_list, const LinkedList* source_list, ui
     
     LinkedNode* resume_node = pause_node->next;
     pause_node->next = source_list->start;
-    for(pause_node; pause_node->next != NULL; pause_node = pause_node->next);
+    while (pause_node->next != NULL)
+        pause_node = pause_node->next;
+    
     pause_node->next = resume_node;
        
     return;
