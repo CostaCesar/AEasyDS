@@ -14,9 +14,11 @@
 
 			"args": [
 				"-fdiagnostics-color=always",
+				"-Wall",
 				"-g",
 				"viewer.c",
 				"Structures/LinkedList/**.c",
+				"Structures/Vector/**.c",
 				"-o",
 				"build/viewer"
 			],
