@@ -30,8 +30,8 @@ uint32_t Vector_GetIndex(const Vector* search_vector, const void* search_key,
     uint32_t (*comparator_function)(const void*,const void*));
 
 void Vector_Pop(Vector* pop_vector, size_t index);
-void Vector_PopFront(Vector* spop_vector);
-void Vector_PopBack(Vector* spop_vector);
+void Vector_PopFront(Vector* pop_vector);
+void Vector_PopBack(Vector* pop_vector);
 
 void Vector_Join(Vector* destiny_vector, const Vector* source_vector, uint32_t index);
 void Vector_Append(Vector* destiny_vector, const Vector* source_vector);
