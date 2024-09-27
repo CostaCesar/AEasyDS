@@ -14,13 +14,13 @@ int main(int argc, char const *argv[])
     for (size_t i = 0; i < 10; i++)
     {
         LinkedList_PushBack(&list, (void*) (size_t)(rand() % 100));
-        printf("[%llu] ", (size_t) LinkedList_PeekBack(&list));
+        printf("[%llu] ", (long long unsigned) LinkedList_PeekBack(&list));
         if(i % 2) LinkedList_PopBack(&list);
     }
     printf("\n");
     for (size_t i = 10; i > 0; i--)
     {
-        printf("[%llu] ", (size_t) LinkedList_Peek(&list, i-1));
+        printf("[%llu] ", (long long unsigned) LinkedList_Peek(&list, i-1));
     }
     printf("\n");
 
