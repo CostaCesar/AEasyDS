@@ -17,8 +17,8 @@
 				"-Wall",
 				"-g",
 				"viewer.c",
-				"Structures/LinkedList/**.c",
-				"Structures/Vector/**.c",
+				"${workspaceFolder}/Structures/LinkedList/linkedlist.c",
+				"${workspaceFolder}/Structures/Vector/vector.c",
 				"-o",
 				"build/viewer"
 			],
