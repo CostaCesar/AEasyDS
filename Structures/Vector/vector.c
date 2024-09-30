@@ -279,3 +279,23 @@ void Vector_Preappend(Vector *destiny_vector, const Vector *source_vector)
     (*destiny_vector) = new_vector;
     return;
 }
+
+void Vector_Reverse(Vector* reverse_vector)
+{
+    if(reverse_vector->count <= 1) return;
+
+    uint8_t* buffer = (uint8_t *) malloc(sizeof(uint8_t) * reverse_vector->data_size);
+    if(buffer == NULL) return;
+
+    void *position_start = NULL, *position_end = NULL;
+    for (size_t i = 0; i < reverse_vector->count / 2; i++)
+    {
+        position_start = Data_Indexed(reverse_vector, i);
+        Data_Copy(buffer, position_start, 1, reverse_vector->data_size);
+        position_end = Data_Indexed(reverse_vector, reverse_vector->count - i - 1);
+        Data_Copy(position_start, position_end, 1, reverse_vector->data_size);
+        Data_Copy(position_end, buffer, 1, reverse_vector->data_size);
+    }
+    free(buffer);
+    return;
+}

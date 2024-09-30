@@ -38,4 +38,5 @@ void Vector_Join(Vector* destiny_vector, const Vector* source_vector, uint32_t i
 void Vector_Append(Vector* destiny_vector, const Vector* source_vector);
 void Vector_Preappend(Vector* destiny_vector, const Vector* source_vector);
 
+void Vector_Reverse(Vector* reverse_vector);
 #endif

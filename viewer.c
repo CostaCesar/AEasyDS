@@ -48,6 +48,13 @@ int main(int argc, char const *argv[])
     {
         printf("[%d] ", *((int*) Vector_Peek(&vec1, i)));
     }
+    printf("\n");
+    Vector_Reverse(&vec1);
+    for(size_t i = 0; i < vec1.count; i++)
+    {
+        printf("[%d] ", *((int*) Vector_Peek(&vec1, i)));
+    }
+    printf("\n");
     
     Vector_Destroy(&vec1);
     Vector_Destroy(&vec2);
