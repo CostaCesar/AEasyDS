@@ -6,7 +6,7 @@
 
 typedef struct
 {
-   void* data;
+   uint8_t* data;
    size_t count;
    size_t data_size;
 } Vector;
