@@ -18,6 +18,7 @@
 				"-g",
 				"viewer.c",
 				"${workspaceFolder}/Structures/LinkedList/linkedlist.c",
+				"${workspaceFolder}/Structures/DoukedList/doukedlist.c",
 				"${workspaceFolder}/Structures/Vector/vector.c",
 				"-o",
 				"build/viewer"
