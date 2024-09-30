@@ -6,8 +6,8 @@
 typedef struct S_DoukedNode
 {
     void* data;
-    S_DoukedNode *previous;
-    S_DoukedNode *next;
+    struct S_DoukedNode *previous;
+    struct S_DoukedNode *next;
 
 } DoukedNode;
 typedef struct
@@ -43,6 +43,5 @@ void DoukedList_Append(DoukedList* destiny_list, const DoukedList* source_list);
 void DoukedList_Preappend(DoukedList* destiny_list, const DoukedList* source_list);
 
 void DoukedList_Reverse(DoukedList* reverse_list);
-
 
 #endif

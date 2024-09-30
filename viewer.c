@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include "Structures/LinkedList/linkedlist.h"
 #include "Structures/Vector/vector.h"
+#include "Structures/DoukedList/doukedlist.h"
 
 int main(int argc, char const *argv[])
 {
@@ -70,5 +71,29 @@ int main(int argc, char const *argv[])
     Vector_Destroy(&vec1);
     Vector_Destroy(&vec2);
 
+    DoukedList dk_list = DoukedList_Create();
+
+    for (size_t i = 1; i < 4; i++)
+    {
+        switch (i % 3)
+        {
+        case 0:
+            DoukedList_PushBack(&dk_list, (void*) (i * 10));
+            break;
+        case 1:
+            DoukedList_PushFront(&dk_list, (void*) (i * 100));
+            break;
+        case 2:
+            DoukedList_Push(&dk_list, dk_list.size/2, (void*) (i * 1000));
+            break;
+        }
+    }
+    for (size_t i = 0; i < dk_list.size; i++)
+    {
+        printf("[%llu] ", (long long unsigned) DoukedList_Peek(&dk_list, i));
+    }
+    printf("\n");
+
+    DoukedList_Free(&dk_list);
     return 0;
 }
