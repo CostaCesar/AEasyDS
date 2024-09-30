@@ -10,6 +10,8 @@ static void Vector_Expand(Vector* expand_vector)
         expand_vector->data,
         expand_vector->count * expand_vector->data_size
     );
+    if(expand_vector->data == NULL)
+        expand_vector->count = 0;
     return;
 }
 static void Vector_Shrink(Vector* shrink_vector)
@@ -61,7 +63,7 @@ Vector Vector_CreateEmpty(size_t element_size)
 }
 uint32_t Vector_IsEmpty(const Vector *vector)
 {
-    return (vector->count == 0);
+    return (vector->count == 0 || vector->data == NULL);
 }
 void Vector_Free(Vector *free_vector)
 {
