@@ -23,6 +23,17 @@ int main(int argc, char const *argv[])
         printf("[%llu] ", (long long unsigned) LinkedList_Peek(&list, i-1));
     }
     printf("\n");
+    LinkedList_Reverse(&list);
+    for (size_t i = 0; i < list.size; i++)
+    {
+        printf("[%llu] ", (long long unsigned) LinkedList_Peek(&list, i));
+    }
+    printf("\n");
+    for (size_t i = list.size; i > 0; i--)
+    {
+        printf("[%llu] ", (long long unsigned) LinkedList_Peek(&list, i-1));
+    }
+    printf("\n");
 
     LinkedList_Free(&list);
 

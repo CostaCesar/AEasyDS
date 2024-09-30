@@ -40,4 +40,6 @@ void LinkedList_Join(LinkedList* destiny_list, const LinkedList* source_list, ui
 void LinkedList_Append(LinkedList* destiny_list, const LinkedList* source_list);
 void LinkedList_Preappend(LinkedList* destiny_list, const LinkedList* source_list);
 
+void LinkedList_Reverse(LinkedList* reverse_list);
+
 #endif

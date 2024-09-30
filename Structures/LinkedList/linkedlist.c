@@ -192,3 +192,22 @@ void LinkedList_Preappend(LinkedList* destiny_list, const LinkedList* source_lis
 {
     LinkedList_Join(destiny_list, source_list, 0);
 }
+
+void LinkedList_Reverse(LinkedList* reverse_list)
+{
+    if(LinkedList_IsEmpty(reverse_list) || reverse_list->size < 1)
+        return;
+
+    LinkedNode* previous_node = reverse_list->start;
+    LinkedNode* current_node = reverse_list->start->next;
+    previous_node->next = NULL;
+
+    for(LinkedNode* next_node; current_node != NULL; current_node = next_node)
+    {
+        next_node = current_node->next;
+        current_node->next = previous_node;
+        previous_node = current_node;
+        reverse_list->start = current_node;
+    }
+    return;
+}
