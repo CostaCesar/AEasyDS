@@ -115,8 +115,7 @@ const void *Vector_Peek(const Vector *peek_vector, size_t index)
 {
     if(index >= peek_vector->count) return NULL;
 
-    uint8_t* true_vector = (uint8_t*) peek_vector->data;
-    return (void*) (true_vector + (index*peek_vector->data_size));
+    return Data_Indexed(peek_vector, index);
 }
 const void *Vector_PeekFront(const Vector *peek_vector)
 { return Vector_Peek(peek_vector, 0); }
