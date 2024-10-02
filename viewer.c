@@ -5,6 +5,12 @@
 #include "Structures/Vector/vector.h"
 #include "Structures/DoukedList/doukedlist.h"
 
+uint32_t comp_int(const void* a, const void* b)
+{
+
+    return ((int*)a) == ((int*)b);
+}
+
 int main(int argc, char const *argv[])
 {
     srand(101010);
@@ -93,12 +99,21 @@ int main(int argc, char const *argv[])
         printf("[%llu] ", (long long unsigned) DoukedList_Peek(&dk_list, i));
     }
     printf("\n");
+    for (size_t i = 0; i < 3000; i++)
+    {
+        if(DoukedList_CheckData(&dk_list, (void*)i, comp_int))
+        {
+            printf("[%llu found at %u] ", (long long unsigned)i,
+                DoukedList_GetIndex(&dk_list, (void*) i, comp_int));
+        }
+    }
+    printf("\n");
+    
     while(!DoukedList_IsEmpty(&dk_list))
     {
         DoukedList_PopFront(&dk_list);
         DoukedList_PopBack(&dk_list);
     }
-    
 
     DoukedList_Free(&dk_list);
     return 0;

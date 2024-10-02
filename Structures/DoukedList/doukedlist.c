@@ -176,9 +176,44 @@ void* DoukedList_PeekBack(const DoukedList* get_list)
 }
 
 uint32_t DoukedList_CheckData(const DoukedList* search_list, const void* search_key,
-    uint32_t (*comparator_function)(const void*,const void*));
+    uint32_t (*comparator_function)(const void*,const void*))
+{
+    DoukedNode* front = search_list->start, *back = search_list->end;
+    while (1)
+    {
+        if(comparator_function(front->data, search_key))
+            return 1;
+
+        if(front == back) break;
+        front = front->next;
+
+        if(comparator_function(back->data, search_key))
+            return 1;
+        back = back->previous;
+    }
+    
+    return 0;
+}
 uint32_t DoukedList_GetIndex(const DoukedList* search_list, const void* search_key,
-    uint32_t (*comparator_function)(const void*,const void*));
+    uint32_t (*comparator_function)(const void*,const void*))
+{
+    
+    
+    DoukedNode* front = search_list->start, *back = search_list->end;
+    for (uint32_t i = 0; i < search_list->size / 2 ; i++)
+    {
+        if(comparator_function(front->data, search_key))
+            return i;
+        front = front->next;
+        
+        if(comparator_function(back->data, search_key))
+            return (search_list->size - i - 1);
+        back = back->previous;
+    }
+    if(front == back)
+        return (comparator_function(front->data, search_key));
+    else return 0;
+}
     
 void DoukedList_Pop(DoukedList* pop_list, uint32_t index)
 {
