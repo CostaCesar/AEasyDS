@@ -93,6 +93,12 @@ int main(int argc, char const *argv[])
         printf("[%llu] ", (long long unsigned) DoukedList_Peek(&dk_list, i));
     }
     printf("\n");
+    while(!DoukedList_IsEmpty(&dk_list))
+    {
+        DoukedList_PopFront(&dk_list);
+        DoukedList_PopBack(&dk_list);
+    }
+    
 
     DoukedList_Free(&dk_list);
     return 0;

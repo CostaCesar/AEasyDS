@@ -180,9 +180,76 @@ uint32_t DoukedList_CheckData(const DoukedList* search_list, const void* search_
 uint32_t DoukedList_GetIndex(const DoukedList* search_list, const void* search_key,
     uint32_t (*comparator_function)(const void*,const void*));
     
-void DoukedList_Pop(DoukedList* pop_list, uint32_t index);
-void DoukedList_PopFront(DoukedList* pop_list);
-void DoukedList_PopBack(DoukedList* pop_list);
+void DoukedList_Pop(DoukedList* pop_list, uint32_t index)
+{
+    if(DoukedList_IsEmpty(pop_list)) return;
+    if(pop_list->size == 1)
+    {
+        DoukedList_Free(pop_list);
+        return;
+    }
+
+    if(index == 0)
+    {
+        DoukedList_PopFront(pop_list);
+        return;
+    }
+    else if(index == pop_list->size-1)
+    {
+        DoukedList_PopBack(pop_list);
+        return;
+    }
+
+    DoukedNode* pop_node;
+    if(index < pop_list->size / 2)
+    {
+        pop_node = pop_list->start;
+        for(uint32_t i = 0; i < index; i++)
+            pop_node = pop_node->next;
+    }
+    else
+    {
+        pop_node = pop_list->end;
+        for(uint32_t i = 0; i < index; i++)
+            pop_node = pop_node->previous;
+    }
+
+    pop_node->previous->next = pop_node->next;
+    pop_node->next->previous = pop_node->previous;
+    FreeDoukedNode(&pop_node);
+    pop_list->size--;
+    return;
+}
+void DoukedList_PopFront(DoukedList* pop_list)
+{
+    if(DoukedList_IsEmpty(pop_list)) return;
+    if(pop_list->size == 1)
+    {
+        DoukedList_Free(pop_list);
+        return;
+    }
+
+    DoukedNode* pop_node = pop_list->start;
+    pop_list->start = pop_list->start->next;
+    FreeDoukedNode(&pop_node);
+    pop_list->size--;
+    return;
+}
+void DoukedList_PopBack(DoukedList* pop_list)
+{
+    if(DoukedList_IsEmpty(pop_list)) return;
+    if(pop_list->size == 1)
+    {
+        DoukedList_Free(pop_list);
+        return;
+    }
+
+    DoukedNode* pop_node = pop_list->end;
+    pop_list->end = pop_list->end->previous;
+    FreeDoukedNode(&pop_node);
+    pop_list->size--;
+    return;
+}
 
 void DoukedList_Join(DoukedList* destiny_list, const DoukedList* source_list, uint32_t index);
 void DoukedList_Append(DoukedList* destiny_list, const DoukedList* source_list);
