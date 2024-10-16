@@ -82,8 +82,8 @@ void Vector_Destroy(Vector* destroy_vector)
 
 void Vector_Push(Vector *insert_vector, size_t index, const void *data)
 {
-    if(index >= insert_vector->count) return;
-    else if(index == insert_vector->count - 1)
+    if(index > insert_vector->count) return;
+    else if(index == insert_vector->count)
     {
         Vector_PushBack(insert_vector, data);
         return;
