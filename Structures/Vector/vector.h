@@ -39,4 +39,13 @@ void Vector_Append(Vector* destiny_vector, const Vector* source_vector);
 void Vector_Preappend(Vector* destiny_vector, const Vector* source_vector);
 
 void Vector_Reverse(Vector* reverse_vector);
+
+void Vector_Move(Vector* destiny_vector, Vector* source_vector);
+void Vector_Copy(Vector* destiny_vector, Vector* source_vector);
+void Vector_RangeCopy(Vector* destiny_vector, Vector* source_vector, 
+    uint32_t start_index, uint32_t end_index);
+
+Vector Vector_SubVector(Vector* source_vector, uint32_t start_index, uint32_t end_index);
+Vector Vector_SubVectorFrom(Vector* source_vector, uint32_t start_index);
+Vector Vector_SubVectorUntil(Vector* source_vector, uint32_t end_index);
 #endif

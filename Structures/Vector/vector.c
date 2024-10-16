@@ -299,3 +299,65 @@ void Vector_Reverse(Vector* reverse_vector)
     free(buffer);
     return;
 }
+
+void Vector_Move(Vector* destiny_vector, Vector* source_vector)
+{
+    Vector_Copy(source_vector, destiny_vector);
+    Vector_Destroy(source_vector);
+    return;
+}
+void Vector_Copy(Vector* destiny_vector, Vector* source_vector)
+{
+    if(Vector_IsEmpty(source_vector))
+        return;
+    // else if(source_vector->data_size != destiny_vector->data_size)
+    //     return;
+
+    Vector new_vector = Vector_Create(source_vector->data_size, source_vector->count);
+    if(Vector_IsEmpty(&new_vector))
+        return;
+    new_vector.count = source_vector->count;
+    new_vector.data_size = source_vector->data_size;
+    new_vector.data = malloc(new_vector.count * new_vector.data_size);
+    if(new_vector.data == NULL)
+        return;
+
+    Data_Copy(new_vector.data, source_vector->data,
+        source_vector->count, source_vector->data_size);
+    
+    Vector_Destroy(destiny_vector);
+    (*destiny_vector) = new_vector;
+
+    return;
+}
+void Vector_RangeCopy(Vector* destiny_vector, Vector* source_vector, 
+    uint32_t start_index, uint32_t end_index);
+
+Vector Vector_SubVector(Vector* source_vector, uint32_t start_index, uint32_t end_index)
+{
+    Vector new_vector = {0};
+    if(Vector_IsEmpty(source_vector))
+        return new_vector;
+
+    if(start_index >= source_vector->count
+        || end_index >= source_vector->count
+        || start_index > end_index)
+        return new_vector;
+
+    new_vector = Vector_Create(source_vector->data_size, source_vector->count);
+    if(Vector_IsEmpty(&new_vector))
+        return new_vector;
+
+    Data_Copy(new_vector.data, Data_Indexed(source_vector, start_index),
+        end_index - start_index + 1, source_vector->data_size);
+    
+    return new_vector;
+}
+Vector Vector_SubVectorFrom(Vector* source_vector, uint32_t start_index)
+{
+    return Vector_SubVector(source_vector, start_index, source_vector->count-1);
+}
+Vector Vector_SubVectorUntil(Vector* source_vector, uint32_t end_index)
+{
+    return Vector_SubVector(source_vector, 0, end_index);
+}
