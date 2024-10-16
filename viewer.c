@@ -5,9 +5,10 @@
 #include "Structures/Vector/vector.h"
 #include "Structures/DoukedList/doukedlist.h"
 
+#include "Structures/Vector/vector_viewer.h"
+
 uint32_t comp_int(const void* a, const void* b)
 {
-
     return ((int*)a) == ((int*)b);
 }
 
@@ -42,40 +43,8 @@ int main(int argc, char const *argv[])
     }
     printf("\n");
 
-    LinkedList_Free(&list);
+    VectorViewer_Main();
 
-    Vector vec1 = Vector_CreateEmpty(sizeof(int));
-    Vector vec2 = Vector_CreateEmpty(sizeof(int));
-    for (size_t i = 0; i < 20; i++)
-    {
-        if(i % 2) Vector_PushBack(&vec1, &i);
-        else Vector_PushBack(&vec2, &i);
-    }
-    for(size_t i = vec1.count; i > 0; i--)
-    {
-        printf("[%d] ", *((int*) Vector_Peek(&vec1, i - 1)));
-    }
-    printf("\n");
-    for(size_t i = vec2.count; i > 0; i--)
-    {
-        printf("[%d] ", *((int*) Vector_Peek(&vec2, i - 1)));
-    }
-    printf("\n");
-    Vector_Join(&vec1, &vec2, vec1.count / 2);
-    for(size_t i = 0; i < vec1.count; i++)
-    {
-        printf("[%d] ", *((int*) Vector_Peek(&vec1, i)));
-    }
-    printf("\n");
-    Vector_Reverse(&vec1);
-    for(size_t i = 0; i < vec1.count; i++)
-    {
-        printf("[%d] ", *((int*) Vector_Peek(&vec1, i)));
-    }
-    printf("\n");
-    
-    Vector_Destroy(&vec1);
-    Vector_Destroy(&vec2);
 
     DoukedList dk_list = DoukedList_Create();
 
