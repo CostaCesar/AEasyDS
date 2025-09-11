@@ -1,3 +1,6 @@
 .vscode/
 build/
 bin/
+
+# Custom makefile, not useful
+Makefile 
