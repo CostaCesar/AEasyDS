@@ -10,7 +10,7 @@ namespace Aeasyds
 /// @brief      A queue that retrieves elements based on it's priority
 /// @tparam     T Object type to be stored in the priority queue
 /// @details    The queue is implemented as a min-heap array, so while access is constant time,
-///             insertion and removal occur in logarithmic time. The queue has a maximum
+///             insertion and removal occour in logarithmic time. The queue has a maximum
 ///             m_capacity, after which no more elements can be added to the queue. The instance
 ///             must be provided with a priority function and a swap function to work
 template <class T>
@@ -73,11 +73,11 @@ public:
     
     /// @brief Get the quantity of elements in the queue
     /// @returns Current m_size
-    int Size() const;
+    int GetSize() const;
     
     /// @brief Get the m_capacity of the queue
     /// @returns Queue's m_capacity
-    int Capacity() const;
+    int GetCapacity() const;
     
     /// @brief Determines if the queue has elements
     /// @returns TRUE if it's empty, FALSE otherwise
@@ -193,12 +193,12 @@ inline T PQueue<T>::Remove()
 }
 
 template <class T>
-inline int PQueue<T>::Size() const
+inline int PQueue<T>::GetSize() const
 {
     return this->m_size;
 }
 template <class T>
-inline int PQueue<T>::Capacity() const
+inline int PQueue<T>::GetCapacity() const
 {
     return this->m_capacity;
 }

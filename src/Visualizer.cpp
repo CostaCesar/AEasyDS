@@ -31,7 +31,7 @@ void Test_PQueue()
     Aeasyds::PQueue<int> queue(k_def_size, GetPriority, Swap);
 
     auto PrintStats = [&queue](){
-        cout << Tabs(1) << "Current size: " << queue.Size() << endl;
+        cout << Tabs(1) << "Current size: " << queue.GetSize() << endl;
 
         if(!queue.IsEmpty()) cout << Tabs(1) << "Next on queue: " << queue.Get() << endl;
     };
@@ -51,7 +51,7 @@ void Test_PQueue()
     
     const int k_test_lim_2 = 5;
     cout << Tabs(1) << "<Removing " << k_test_lim_2 << " elements>" << endl;
-    while (queue.Size() > k_test_lim_2)
+    while (queue.GetSize() > k_test_lim_2)
     {
         int b = queue.Remove();
         cout << Tabs(2) << "Removed " << b << endl;
@@ -64,9 +64,9 @@ void Test_PQueue()
     
     PrintStats();
     
-    const int k_test_lim_3 = queue.Capacity();
+    const int k_test_lim_3 = queue.GetCapacity();
     cout << Tabs(1) << "<Filling queue completely with " << k_test_lim_3 << " elements>" << endl;
-    for (int i = 0; queue.Size() < k_test_lim_3; i++)
+    for (int i = 0; queue.GetSize() < k_test_lim_3; i++)
     {
         int a = (generator.Rand() % 0xffffffff) % 10;
         queue.Insert(a);
@@ -141,9 +141,9 @@ void Menu_PQueue()
             cout << "Removed element: " << input << endl;
             break;
         case 5:
-            input = queue.Size();
+            input = queue.GetSize();
             cout << "Current size is: " << input << endl;
-            input = queue.Capacity();
+            input = queue.GetCapacity();
             cout << "Max capacity is: " << input << endl;
             break;
         case 6:
