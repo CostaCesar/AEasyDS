@@ -34,7 +34,7 @@ private:
     unsigned int (*M_Hash)(const T&);
     bool (*M_Equal)(const T&, const T&);
 
-    int M_GetNextIndex(int current_pos, int current_i);
+    int M_GetNextIndex(int current_pos, int current_i) const;
     bool M_HasReachedThreshold();
     void M_Expand();
 
@@ -45,17 +45,18 @@ public:
     USet(unsigned int (*hash_function_)(const T&), bool (*equal_function_)(const T&, const T&), int start_capacity_ = k_start_cap);
     ~USet();
 
-    bool IsEmpty();
-    bool IsFull();
-    int GetSize();
-    int GetCapacity();
+    bool IsEmpty() const;
+    bool IsFull() const;
+    int GetSize() const;
+    int GetCapacity() const;
 
-    bool Contains(const T& element);
+    bool Contains(const T& element) const;
     void Add(const T& element);
     void Remove(const T& element);
+    void Clear();
 
-    T& GetFirst();
-    T& GetLast();
+    T& GetFirst() const;
+    T& GetLast() const;
     // TODO: Iterators
 };
 
@@ -86,27 +87,27 @@ USet<T>::~USet()
     delete[] this->m_data;
 }
 template <class T>
-int USet<T>::M_GetNextIndex(int current_pos, int current_i)
+int USet<T>::M_GetNextIndex(int current_pos, int current_i) const
 {
     return (current_pos + (current_i * current_i)) % m_capacity;
 }
 template <class T>
-bool USet<T>::IsEmpty()
+bool USet<T>::IsEmpty() const
 {
     return this->m_size == 0;
 }
 template <class T>
-bool USet<T>::IsFull()
+bool USet<T>::IsFull() const
 {
     return this->m_capacity == m_size;
 }
 template <class T>
-int USet<T>::GetSize()
+int USet<T>::GetSize() const
 {
     return m_size;
 }
 template <class T>
-int USet<T>::GetCapacity()
+int USet<T>::GetCapacity() const
 {
     return m_capacity;
 }
@@ -177,7 +178,7 @@ void USet<T>::M_AdjustLastIndex()
     }
 }
 template <class T>
-bool USet<T>::Contains(const T& element)
+bool USet<T>::Contains(const T& element) const
 {
     if(IsEmpty()) return false;
 
@@ -242,8 +243,21 @@ void USet<T>::Remove(const T& element)
 
     return; // Should not reach here, but nothing bad happens anyway
 }
+
 template <class T>
-T& USet<T>::GetFirst()
+inline void USet<T>::Clear()
+{
+    for (int i = 0; i < m_capacity; i++)
+    {
+        m_data[i].is_vacant = true;
+        m_data[i].is_virgin = true;
+    }
+    
+    this->m_size = 0;
+}
+
+template <class T>
+T& USet<T>::GetFirst() const
 {
     if(IsEmpty())
         throw std::runtime_error("Empty set was accessed by GetFirst()");
@@ -251,7 +265,7 @@ T& USet<T>::GetFirst()
     return m_data[m_first_index].value;
 }
 template <class T>
-T& USet<T>::GetLast()
+T& USet<T>::GetLast() const
 {
     if(IsEmpty())
         throw std::runtime_error("Empty set was accessed by GetLast()");

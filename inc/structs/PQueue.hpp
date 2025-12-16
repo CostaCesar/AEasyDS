@@ -64,7 +64,7 @@ public:
     /// @brief Access the element in the front of the queue
     /// @return Reference to the element
     /// @warning This function returns garbage if the queue is empty
-    T& Get();
+    T& Get() const;
     
     /// @brief Removes the element from the queue and returns it
     /// @return Copy of the element removed
@@ -82,6 +82,10 @@ public:
     /// @brief Determines if the queue has elements
     /// @returns TRUE if it's empty, FALSE otherwise
     bool IsEmpty() const;
+
+    /// @brief Clears queue from all elements
+    /// @warning Queue capacity is retained
+    void Clear();
 };
 
 /* Implementation Here */
@@ -150,7 +154,7 @@ inline bool PQueue<T>::Insert(const T &inserted)
 }
 
 template <class T>
-inline T &PQueue<T>::Get()
+inline T &PQueue<T>::Get() const
 {
     return m_data[0];
 }
@@ -202,6 +206,12 @@ template <class T>
 inline bool PQueue<T>::IsEmpty() const
 {
     return this->m_size < 1;
+}
+
+template <class T>
+inline void PQueue<T>::Clear()
+{
+    m_size = 0;
 }
 
 } // namespace Aeasyds
