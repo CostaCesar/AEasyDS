@@ -2,15 +2,16 @@
 
 #include "structs/PQueue.hpp"
 #include "structs/USet.hpp"
+#include "structs/Map.hpp"
 #include "Random.hpp"
 
-using std::cout, std::cin, std::cerr, std::endl, std::flush;
+using std::cout, std::cin, std::cerr, std::endl, std::flush, std::string;
 
 constexpr static int k_def_size = 32;
 constexpr static int k_rng_seed = 1812;
 
 auto Tabs = [](int level){
-    return std::string(level * 2, ' ');
+    return string(level * 2, ' ');
 };
 
 /* START Pqueue section */
@@ -348,6 +349,173 @@ void Menu_USet()
 
 /* END USet section */
 
+/* START Map section */
+
+void Test_Map()
+{
+    const int k_test_size = k_def_size;
+    auto generator = Aeasyds::Random::LFSR_64(k_rng_seed);
+
+    auto Hash = [](const string& word){
+        unsigned int x = std::hash<string>{}(word);
+        return x;
+    };
+    
+    Aeasyds::Map<string, int> map(Hash, k_test_size);
+
+    auto PrintStats = [&map](){
+        cout << Tabs(1) << "Current set size: " << map.GetSize() << endl;
+        cout << Tabs(1) << "Current set capacity: " << map.GetCapacity() << endl;
+    };
+
+    PrintStats();
+
+    const int k_test_lim_1 = k_test_size;
+    cout << Tabs(1) << "<Inserting " << k_test_lim_1 << " elements>" << endl;
+    for (int i = 0; i < k_test_lim_1; i++)
+    {
+        auto key = string(i, '*');
+        auto value = generator.Rand() % 20;
+
+        if(map.Contains(key))
+            cout << Tabs(2) << "Updating <" << key << "> with value " << value << endl;
+        else cout << Tabs(2) << "Adding new <" << key << "> with value " << value << endl;
+
+        map.AddElement(key, value);
+    }
+    
+    PrintStats();
+
+    const int k_test_lim_2 = k_test_size / 2;
+    cout << Tabs(1) << "<Removing " << k_test_lim_2 << " elements, at every other>" << endl;
+    for (int i = 0; i < k_test_lim_2; i++)
+    {
+        auto key = string(i * 2, '*');
+        if(!map.Contains(key)) continue;
+
+        auto value = map.GetElement(key);
+        cout << Tabs(2) << "Removed <" << key << "> with value " << value << endl;
+        map.RemoveElement(key);
+    }
+    
+    PrintStats();
+
+    cout << Tabs(1) << "<Clearing map>" << endl;
+    map.Clear();
+    
+    PrintStats();
+
+    const int k_test_lim_3 = k_test_size * 2;
+    cout << Tabs(1) << "<Inserting " << k_test_lim_3 << " elements>" << endl;
+    for (int i = 0; i < k_test_lim_3; i++)
+    {
+        auto key = string(i, '#');
+        auto value = i % 5;
+
+        if(map.Contains(key))
+            cout << Tabs(2) << "Updating <" << key << "> with value " << value << endl;
+        else cout << Tabs(2) << "Adding new <" << key << "> with value " << value << endl;
+
+        map.AddElement(key, value);
+    }
+    
+    PrintStats();
+
+    const int k_test_lim_4 = map.GetSize();
+    cout << Tabs(1) << "<Removing " << k_test_lim_4 << " elements, one by one>" << endl;
+    for (int i = k_test_lim_4 - 1; !map.IsEmpty(); i--)
+    {
+        auto key = string(i, '#');
+        if(!map.Contains(key)) continue;
+        
+        auto value = map.GetElement(key);
+        cout << Tabs(2) << "Removed <" << key << "> with value " << value << endl;
+        map.RemoveElement(key);
+    }
+    
+    PrintStats();
+}
+
+void Menu_Map()
+{
+    auto Hash = [](const string& word){
+        unsigned int x = std::hash<string>{}(word);
+        return x;
+    };
+    
+    Aeasyds::Map<string, int> map(Hash, k_def_size);
+    
+    int option = 0;
+    do
+    {
+        cout << " Map (string -> int)    \n"
+             << "---------------------  \n"
+             << "[1] Add new item       \n"
+             << "[2] Check for item     \n"
+             << "[3] Remove an item     \n" 
+             << "[4] Get current size   \n"
+             << "[5] Run built-in test  \n"
+             << "[6] Reset structure    \n"
+             << "---------------------  \n"
+             << "[0] Go back"
+             << endl;
+        
+        cout << "> " << flush;
+        cin >> option;
+
+    
+        int input = -1;
+        std::string buffer;
+        switch (option)
+        {
+        case 0:
+            break;
+        case 1:
+            cout << "> New item key: " << flush;
+            cin >> buffer;
+            cout << "> New item value: " << flush;
+            cin >> input;
+            map.AddElement(buffer, input);
+            break;
+        case 2:
+            cout << "> Check item key: " << flush;
+            cin >> buffer;
+            if(map.Contains(buffer))
+                cout << "Present | Value: " << map.GetElement(buffer) << flush;
+            else cout << "Missing" << flush;
+            break;
+        case 3:
+            cout << "> Remove item key: " << flush;
+            cin >> buffer;
+            if(map.Contains(buffer))
+                map.RemoveElement(buffer);
+            else cout << "Value not present" << endl;
+            break;
+        case 4:
+            input = map.GetSize();
+            cout << "Current size is: " << input << endl;
+            input = map.GetCapacity();
+            cout << "Max capacity is: " << input << endl;
+            break;
+        case 5:
+            cout << "[Starting test]" << endl;
+            Test_Map();
+            cout << "[Test completed]" << endl;
+            break;
+        case 6:
+            map.Clear();
+            cout << "Set cleared " << endl;
+            break;
+        default:
+            cerr << "# Invalid option #" << endl;
+            break;
+        }
+    }
+    while (option != 0);    
+}
+
+/* END Map section */
+
 void Section_Strucures()
 {
     int option = 0;
@@ -357,6 +525,7 @@ void Section_Strucures()
              << "---------------------  \n"
              << "[1] Priority Queue     \n"
              << "[2] Set                \n"
+             << "[3] Map / Dictionary   \n"
              << "---------------------  \n"
              << "[0] Return to main menu"
              << endl;
@@ -374,6 +543,9 @@ void Section_Strucures()
             break;
         case 2:
             Menu_USet();
+            break;
+        case 3:
+            Menu_Map();
             break;
         default:
             cout << "# Invalid option #" << endl;
