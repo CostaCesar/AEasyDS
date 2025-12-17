@@ -21,8 +21,8 @@ template <class T>
 class USet
 {
 private:
-    inline static const int k_start_cap = 10;
-    inline static const float k_threshold = 0.7;
+    inline static const int k_start_cap = 10; // Default size for a set
+    inline static const float k_threshold = 0.7; // Usage percentage after which the data array mus be expanded
 
     /// @brief Structure to help the storage of elements in the set
     /// @tparam U Object type that the set stores
