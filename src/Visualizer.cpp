@@ -4,6 +4,7 @@
 #include "structs/USet.hpp"
 #include "structs/Map.hpp"
 #include "Random.hpp"
+#include "StringFind.hpp"
 
 using std::cout, std::cin, std::cerr, std::endl, std::flush, std::string;
 
@@ -516,7 +517,91 @@ void Menu_Map()
 
 /* END Map section */
 
-void Section_Strucures()
+/* START String section */
+
+void Menu_StringMatch(Aeasyds::StringFind::I_Find* searcher)
+{
+    if(searcher == nullptr) return;
+    
+    int option = 0;
+    string text = "", pattern = "";
+    std::vector<size_t> matches = {};
+
+    do
+    {
+        cout << "*String Match Menu *   \n"
+             << "---------------------  \n"
+             << "[1] Set text           \n"
+             << "[2] View text          \n"
+             << "[3] Set pattern        \n"
+             << "[4] View pattern       \n"
+             << "[5] Find matches       \n"
+             << "[6] Run built-in test  \n"
+             << "---------------------  \n"
+             << "[0] Go back            "
+             << endl;
+
+        cout << "> " << flush;
+        cin >> option;
+    
+        switch (option)
+        {
+        case 0:
+            break;
+        case 1:
+            cout << "> Text: " << flush;
+            cin.ignore(UINT32_MAX, '\n');
+            std::getline(cin, text);
+            searcher->SetupText(text);
+            cout << endl;
+            break;
+        case 2:
+            if(text.empty())
+                cerr << "# Text is empty #" << endl;
+            else cout << "\n" << text << endl;
+            break; 
+        case 3:
+            cout << "> Pattern: " << flush;
+            cin.ignore(UINT32_MAX, '\n');
+            std::getline(cin, pattern);
+            cout << endl;
+            break;
+        case 4:
+            if(text.empty())
+                cerr << "# Pattern is empty #" << endl;
+            else cout << "\n" << pattern << endl;
+            break; 
+        case 5:
+            matches = searcher->Find(pattern, text);
+            if(matches.size() > 0)
+            {
+                cout << "Found " << matches.size() << " references ending at indexes:" << "\n";
+                for (auto &&i : matches) cout << " " << i;
+                cout << endl;
+            }
+            else cout << "No references of \"" << pattern << "\" found!" << endl;
+            break;
+        case 6:
+            text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum";
+            pattern = "in";
+            matches = searcher->Find(pattern, text);
+            if(matches.size() != 7)
+            {
+                cerr << "# Test failed: found" << matches.size() << " references of \"" << pattern << "\" instead of " << 7 << " #" << endl;
+                break;
+            }
+            else cout << "[Test completed with success]" << endl;
+            break;
+        default:
+            cout << "# Invalid option #" << endl;
+            break;
+        }
+    } while (option != 0);
+}
+
+/* END String section */
+
+void Section_Structures()
 {
     int option = 0;
     do
@@ -554,6 +639,54 @@ void Section_Strucures()
     } while (option != 0);
 }
 
+void Section_StringMatchers()
+{
+    int option = 0;
+    do
+    {
+        Aeasyds::StringFind::I_Find* searcher = nullptr;
+
+        cout << "*Match strategies*     \n"
+             << "---------------------  \n"
+             << "[1] ShiftAnd           \n"
+             << "[2] Horspool           \n"
+             << "[3] KMP algorithm      \n"
+             << "[4] Trie               \n"
+             << "---------------------  \n"
+             << "[0] Return to main menu"
+             << endl;
+
+        cout << "> " << flush;
+        cin >> option;
+    
+        switch (option)
+        {
+        case 0:
+            if(searcher) delete searcher;
+            return;
+        case 1:
+            searcher = new Aeasyds::StringFind::ShiftAnd();
+            break;
+        case 2:
+        case 3:
+        case 4:
+            cerr << "# Not implemented yet #" << endl;
+            continue;
+        default:
+            cout << "# Invalid option #" << endl;
+            continue;
+        }
+
+        if(searcher)
+        {
+            Menu_StringMatch(searcher);
+            delete searcher;
+            searcher = nullptr;
+        }
+
+    } while (option != 0);
+}
+
 int main(int argc, char const *argv[])
 {
     int option = 0;
@@ -579,6 +712,7 @@ int main(int argc, char const *argv[])
              << "[2] Random Generators  \n"
              << "[3] Sorting Algorithms \n" 
              << "[4] Mathematic Solvers \n" 
+             << "[5] String Matchers    \n" 
              << "---------------------  \n"
              << "[0] Quit"
              << endl;
@@ -586,13 +720,17 @@ int main(int argc, char const *argv[])
         cout << "> " << flush;
         cin >> option;
 
-
+        Aeasyds::StringFind::ShiftAnd foo;
         switch (option)
         {
         case 0:
             break;
         case 1:
-            Section_Strucures();
+            Section_Structures();
+            break;
+        case 5:
+            Section_StringMatchers();
+            foo.Find("sudo make sudo clean", "sudo make sudo make sudo clean sudo sudo make sudo clean");
             break;
         case 2:
         case 3:
