@@ -9,6 +9,12 @@ namespace Aeasyds
 
 /* Declaration Here */
 
+/**
+ * @brief A map class associating a key type with an value
+ * @tparam K Object type used as the key
+ * @tparam T Object type used as the value]
+ * @details The map uses open addressing to store the values, and must receive a hash function for the K object
+ */
 template <class K, class T>
 class Map
 {
@@ -16,43 +22,133 @@ private:
     inline static const int k_start_cap = 10; // Default size for a set
     inline static const float k_threshold = 0.7; // Usage percentage after which the data array mus be expanded
 
+    /**
+     * @brief Internal class that stores the key-value pair as a single unit
+     * @tparam U Object type of the key
+     * @tparam V Object type of the value
+     */
     template <class U, class V>
     struct MapPair
     {
-        bool is_vacant;
-        bool is_virgin;
-        U key;
-        V* value;
+        bool is_vacant; // Is the position free
+        bool is_virgin; // Is the position not used before
+        U key; // The key object
+        V* value; // The value object
 
+        /**
+         * @brief Construct a new MapPair object
+         */
         MapPair();
+        /**
+         * @brief Destroy the MapPair object
+         */
         ~MapPair();
     };
 
 private:
-    int m_size;
+    int m_size; // Ammount of
     int m_filled;
     int m_capacity;
-    MapPair<K, T>* m_data;
+    MapPair<K, T>* m_data; // The stored objects
 
+    /**
+     * @brief The hash function for the key
+     * @param K The given key object
+     * @return The hash of the object
+     */
     unsigned int (*M_Hash)(const K&);
 
+    /**
+     * @brief Expands the current capacity of the map
+     * @throws "logic_error" if the new capacity is bad
+     * @throws "bad_alloc" if map could not be expanded
+     */
     void M_Expand();
+    /**
+     * @brief Obtains the next index for the position
+     * 
+     * @param current_pos The current position
+     * @param current_i The current iteration
+     * @return "int" The new position associated with this
+     */
     int M_GetNextIndex(int current_pos, int current_i) const;
+    /**
+     * @brief Checks if the map has reached the threshold for expansion
+     * 
+     * @return "true" If expasion is needed for preserving hash efficiency,
+     * @return "false" otherwise
+     */
     bool M_HasReachedThreshold() const;
     
 public:
+    /**
+     * @brief Construct a new Map object
+     * 
+     * @param hash_function_ The hash function for the keys
+     * @param start_capacity_ (OPT) The starting capacirty of the map
+     * @throws "bad_alloc" If map could not be initialised
+     */
     Map(unsigned int (*hash_function_)(const K&), int start_capacity_ = k_start_cap);
+    /**
+     * @brief Destroy the Map object
+     */
     ~Map();
 
+    /**
+     * @brief Get the ammount of objects that the map currently stores
+     * 
+     * @return "int" The ammount of elements
+     */
     int GetSize() const;
+    /**
+     * @brief Get the ammount of objects that the map could store
+     * 
+     * @return "int" The capacity of the map
+     */
     int GetCapacity() const;
 
+    /**
+     * @brief Gets if the map is empty
+     * 
+     * @return "true" If no elements are stored, 
+     * @return "false" otherwise
+     */
     bool IsEmpty() const;
+    /**
+     * @brief Checks if the map contains the key
+     * 
+     * @param key The key to be tested
+     * @return "true" If an element associated with the key exists, 
+     * @return "false" otherwise
+     */
     bool Contains(const K& key) const;
+    /**
+     * @brief Wipes the map clean of all elements
+     */
     void Clear();
-
+    /**
+     * @brief Get the element associated with the key
+     * 
+     * @param key The key used to retrieve
+     * @return "T&" Reference to the element associated with the key
+     * 
+     * @throws "runtime_error" If no key-value pair is found
+     */
     T& GetElement(const K& key);
+    /**
+     * @brief Adds a key associated with an element to the map
+     * 
+     * @param key The key to associate
+     * @param value The element to be stored
+     * 
+     * @throws "bad_alloc" If map could not be expanded
+     */
     void AddElement(const K& key, const T& value);
+    /**
+     * @brief Removes the element associated with the key
+     * 
+     * @param key The key to the association to be removed
+     */
     void RemoveElement(const K& key);
 };
 
@@ -80,7 +176,7 @@ inline void Map<K, T>::M_Expand()
     int old_capacity = m_capacity;
     m_capacity = (2) * old_capacity;
     if(m_capacity < old_capacity)
-        throw std::logic_error("Could not expand capacity");
+        throw std::logic_error("New capacity < old capacity");
 
     MapPair<K, T>* old_data = m_data;
     m_data = new MapPair<K, T>[m_capacity];
@@ -212,7 +308,7 @@ template <class K, class T>
 void Map<K, T>::AddElement(const K& key, const T& value)
 {
     if(m_size == m_capacity)
-        throw std::out_of_range("Set is full, and could not be expanded");
+        throw std::bad_alloc();
 
     if(M_HasReachedThreshold())
         M_Expand();

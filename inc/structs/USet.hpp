@@ -64,6 +64,8 @@ private:
 
     /// @brief Expands the set to store more elements. Previous elements are preserved
     /// @warning Any iterators (eg. GetFirst, GetLast) are rendered invalid
+    /// @throws "logic_error" if the new capacity is bad
+    /// @throws "bad_alloc" if set could not be expanded
     void M_Expand();
 
     /// @brief Obtains the new index of the first element (index-wise) stored in the set
@@ -77,6 +79,8 @@ public:
     /// @param hash_function_ A function that gives a hash to an object
     /// @param equal_function_ A function that compares if two objects are equal
     /// @param start_capacity_ (OPT) Starting capacity of the set
+    /// @throws "bad_array_lenght" If given capacity is smaller than 1
+    /// @throws "bad_alloc" If set could not be initialised
     USet(unsigned int (*hash_function_)(const T&), bool (*equal_function_)(const T&, const T&), int start_capacity_ = k_start_cap);
     ~USet();
 
@@ -103,6 +107,7 @@ public:
 
     /// @brief Inserts an element in the set, if it's not present already
     /// @param element The object to be inserted
+    /// @throws "bad_alloc" If set could not be expanded
     void Add(const T& element);
 
     /// @brief Removes an element from the set, if it's present
@@ -115,11 +120,13 @@ public:
     /// @brief Gets the first element (index-wise) stored in the set
     /// @return A reference to the first element
     /// @warning This reference can be invalid after removal operations
+    /// @throws "runtime_error" If the set is empty
     T& GetFirst() const;
 
     /// @brief Gets the last element (index-wise) stored in the set
     /// @return A reference to the last element
     /// @warning This reference can be invalid after removal operations
+    /// @throws "runtime_error" If the set is empty
     T& GetLast() const;
 
     // TODO: Iterators
@@ -261,7 +268,7 @@ template <class T>
 void USet<T>::Add(const T& element)
 {
     if(IsFull())
-        throw std::out_of_range("Set is full, and could not be expanded");
+        throw std::bad_alloc();
 
     if(M_HasReachedThreshold())
         M_Expand();

@@ -52,6 +52,8 @@ public:
     /// @param capacity_ The maximum m_capacity of the queue
     /// @param priority_function_ A function that attributes a priority to the element
     /// @param swap_function_  A function that swaps the location of two elements
+    /// @throws "bad_array_lenght" If given capacity is smaller than 1
+    /// @throws "bad_alloc" If queue could not be initialised
     PQueue(const int capacity_, int (*priority_function_)(const T&),
            void (*swap_function_)(T& , T&));
     ~PQueue();

@@ -4,15 +4,15 @@ namespace Aeasyds::StringFind
 {
 using std::string;
 
-void ShiftAnd::ProcessPattern()
+void ShiftAnd::ProcessPattern(const string& pattern)
 {
-    size_t pattern_size = m_pattern.length();
+    size_t pattern_size = pattern.length();
     for (size_t i = 0; i < pattern_size; i++)
     {
-        if (!m_states.contains(m_pattern[i]))
-            m_states.insert({m_pattern[i], BitSet((pattern_size / k_word_size) + 1)});
+        if (!m_states.contains(pattern[i]))
+            m_states.insert({pattern[i], BitSet((pattern_size / k_word_size) + 1)});
 
-        m_states[m_pattern[i]][i / k_word_size] |= 1 << (i % k_word_size);
+        m_states[pattern[i]][i / k_word_size] |= 1 << (i % k_word_size);
         if (i == pattern_size - 1)
         {
             m_string_end = 1 << (i % k_word_size);
@@ -22,11 +22,10 @@ void ShiftAnd::ProcessPattern()
 
 std::vector<size_t> ShiftAnd::Find(const string &pattern, const string &text)
 {
-    m_pattern = pattern;
-    ProcessPattern();
+    ProcessPattern(pattern);
 
     std::vector<size_t> output;
-    m_current_state = BitSet((m_pattern.length() / k_word_size) + 1, 0);
+    m_current_state = BitSet((pattern.length() / k_word_size) + 1, 0);
 
     for (size_t i = 0; i < text.length(); i++)
     {
@@ -52,7 +51,7 @@ std::vector<size_t> ShiftAnd::Find(const string &pattern, const string &text)
         {
             m_current_state[j] &= m_states[symbol][j];
             if (j == (m_current_state.size() - 1)            // Last chunk of bitset
-                && symbol == m_pattern.back()                // Reading the last letter of pattern
+                && symbol == pattern.back()                // Reading the last letter of pattern
                 && (m_current_state[j] & m_string_end) != 0) // State is reached
             {
                 output.push_back(i);
