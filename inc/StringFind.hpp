@@ -58,6 +58,10 @@ private:
     MaskMap m_states; // The transition table for each symbol
     Word m_string_end; // The bitset that represents the end of the pattern
 
+    /**
+     * @brief Process pattern to apply the search algorithm
+     * @param pattern The pattern to be searched
+     */
     void ProcessPattern(const string& pattern);
 
 public:
@@ -72,6 +76,44 @@ public:
 
     // From I_Find (Unused)
     void SetupText(const string& text) {} 
+    // From I_Find
+    std::vector<size_t> Find(const string& pattern, const string& text);
+};
+
+/**
+ * @brief String match implementation using the Horspool algorithm
+ * @details See more at https://en.wikipedia.org/wiki/Boyer%E2%80%93Moore%E2%80%93Horspool_algorithm
+ */
+class Horspool : public I_Find
+{
+private:
+    std::unordered_map<char, int> m_shift_table; // The shift ammount to the last occourence in the pattern;
+
+    /**
+     * @brief Process pattern to apply the search algorithm
+     * @param pattern The pattern to be searched
+     */
+    void ProcessPattern(const string& pattern);
+
+    inline int GetShiftSize(const string& pattern, char test_char)
+    {
+        if(!m_shift_table.contains(test_char))
+            return pattern.length();
+        else return m_shift_table[test_char];
+    }
+
+public:
+    /**
+     * @brief Construct a new Horspool object 
+     */
+    Horspool() {}
+    /**
+     * @brief Destroy the Horspool object
+     */
+    ~Horspool() {}
+
+    // From I_Find (Unused)
+    void SetupText(const string& text) {}
     // From I_Find
     std::vector<size_t> Find(const string& pattern, const string& text);
 };

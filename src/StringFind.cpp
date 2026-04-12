@@ -4,6 +4,8 @@ namespace Aeasyds::StringFind
 {
 using std::string;
 
+/* START ShiftAnd */
+
 void ShiftAnd::ProcessPattern(const string& pattern)
 {
     size_t pattern_size = pattern.length();
@@ -61,5 +63,53 @@ std::vector<size_t> ShiftAnd::Find(const string &pattern, const string &text)
     }
     return output;
 }
+
+/* END  ShiftAnd */
+
+/* START Horspool */
+
+void Horspool::ProcessPattern(const string& pattern)
+{
+    for (size_t i = 0; i < pattern.length() - 1; i++)
+    {
+        size_t shift = pattern.length() - 1 - i;
+        if(!m_shift_table.contains(pattern[i]))
+            m_shift_table.insert({pattern[i], shift});
+        else m_shift_table[pattern[i]] = shift;
+    }
+}
+std::vector<size_t> Horspool::Find(const string& pattern, const string& text)
+{
+    m_shift_table.clear();
+    ProcessPattern(pattern);
+
+    std::vector<size_t> output;
+    size_t pattern_size = pattern.length();
+
+    for (size_t i = pattern_size - 1; i < text.length(); i = i)
+    {
+        for (size_t j = 0; j <= pattern_size; j++)
+        {
+            if(j == pattern_size)
+            {
+                output.push_back(i);
+                i += GetShiftSize(pattern, pattern[pattern_size - 1]);
+                break;
+            }
+
+            const char& text_char = text[i - j];
+            const char& pattern_char = pattern[pattern_size - j - 1];
+            if(text_char != pattern_char)
+            {
+                i += GetShiftSize(pattern, text_char);
+                break;
+            }
+        }
+    }
+
+    return output;
+}
+
+/* END Horspool */
 
 };

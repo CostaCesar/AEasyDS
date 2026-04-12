@@ -668,6 +668,8 @@ void Section_StringMatchers()
             searcher = new Aeasyds::StringFind::ShiftAnd();
             break;
         case 2:
+            searcher = new Aeasyds::StringFind::Horspool();
+            break;
         case 3:
         case 4:
             cerr << "# Not implemented yet #" << endl;
