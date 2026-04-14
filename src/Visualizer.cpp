@@ -68,7 +68,7 @@ void Test_PQueue()
     
     const int k_test_lim_3 = queue.GetCapacity();
     cout << Tabs(1) << "<Filling queue completely with " << k_test_lim_3 << " elements>" << endl;
-    for (int i = 0; queue.GetSize() < k_test_lim_3; i++)
+    while (queue.GetSize() < k_test_lim_3)
     {
         int a = (generator.Rand() % 0xffffffff) % 10;
         queue.Insert(a);

@@ -86,7 +86,7 @@ std::vector<size_t> Horspool::Find(const string& pattern, const string& text)
     std::vector<size_t> output;
     size_t pattern_size = pattern.length();
 
-    for (size_t i = pattern_size - 1; i < text.length(); i = i)
+    for (size_t i = pattern_size - 1; i < text.length(); i = i * 1)
     {
         for (size_t j = 0; j <= pattern_size; j++)
         {
