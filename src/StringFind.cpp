@@ -124,10 +124,10 @@ void KMP::ProcessPattern(const string& pattern)
     size_t best_match = 0;
     for (size_t i = 1; i < pattern.length(); i++)
     {
-        while (best_match > 0 && pattern[best_match] != pattern[i - 1])
-            best_match = m_match_retry[best_match];
+        while (best_match > 0 && pattern[best_match] != pattern[i])
+            best_match = m_match_retry[best_match - 1];
 
-        if(pattern[best_match + 1] == pattern[i - 1])
+        if(pattern[best_match] == pattern[i])
             best_match++;
 
         m_match_retry[i] = best_match;
@@ -144,14 +144,14 @@ std::vector<size_t> KMP::Find(const string& pattern, const string& text)
     size_t best_match = 0;
     for (size_t i = 0; i < text.length(); i++)
     {
-        while (best_match > 0 && pattern[best_match + 1] != text[i])
-            best_match = m_match_retry[best_match];
-        if(pattern[best_match + 1] == text[i])
+        while (best_match > 0 && pattern[best_match] != text[i])
+            best_match = m_match_retry[best_match - 1];
+        if(pattern[best_match] == text[i])
             best_match++;
         if(best_match == pattern.length())
         {
             output.push_back(i);
-            best_match = m_match_retry[best_match];
+            best_match = m_match_retry[best_match - 1];
         }
     }
 
