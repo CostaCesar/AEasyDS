@@ -1,7 +1,7 @@
 #ifndef AEASYDS_RANDOM_HPP
 #define AEASYDS_RANDOM_HPP
 
-#include <cinttypes>
+#include <cstdint>
 
 namespace Aeasyds::Random
 {

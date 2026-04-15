@@ -2,7 +2,6 @@
 #define AEASYDS_UNORDERED_SET_HPP
 
 #include <stdexcept>
-#include <exception>
 
 namespace Aeasyds
 {

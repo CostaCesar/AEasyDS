@@ -1,8 +1,7 @@
 #ifndef AEASYDS_PRIORITY_QUEUE_HPP
 #define AEASYDS_PRIORITY_QUEUE_HPP
 
-#include <stdexcept>
-#include <exception>
+#include <new>
 namespace Aeasyds
 {
 /* Declaration Here */  

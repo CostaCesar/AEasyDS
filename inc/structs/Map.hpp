@@ -2,7 +2,6 @@
 #define AEASYDS_MAP_HPP
 
 #include <stdexcept>
-#include <exception>
 
 namespace Aeasyds
 {
