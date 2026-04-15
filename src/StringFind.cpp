@@ -26,9 +26,11 @@ void ShiftAnd::ProcessPattern(const string& pattern)
 
 std::vector<size_t> ShiftAnd::Find(const string &pattern, const string &text)
 {
-    ProcessPattern(pattern);
-
     std::vector<size_t> output;
+    if(pattern.length() > text.length()) // No match possible
+        return output;
+    else ProcessPattern(pattern);
+
     m_current_state = BitSet((pattern.length() / k_word_size) + 1, 0);
 
     for (size_t i = 0; i < text.length(); i++)
@@ -83,9 +85,11 @@ void Horspool::ProcessPattern(const string& pattern)
 std::vector<size_t> Horspool::Find(const string& pattern, const string& text)
 {
     m_shift_table.clear();
-    ProcessPattern(pattern);
-
     std::vector<size_t> output;
+    if(pattern.length() > text.length()) // No match possible
+        return output;
+    else ProcessPattern(pattern);
+
     size_t pattern_size = pattern.length();
 
     for (size_t i = pattern_size - 1; i < text.length(); i = i * 1)
@@ -137,9 +141,10 @@ void KMP::ProcessPattern(const string& pattern)
 std::vector<size_t> KMP::Find(const string& pattern, const string& text)
 {
     m_match_retry.clear();
-    ProcessPattern(pattern);
-
     std::vector<size_t> output;
+    if(pattern.length() > text.length()) // No match possible
+        return output;
+    else ProcessPattern(pattern);
 
     size_t best_match = 0;
     for (size_t i = 0; i < text.length(); i++)
