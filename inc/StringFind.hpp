@@ -1,10 +1,11 @@
 #ifndef AEASYDS_STRING_FIND_HPP
 #define AEASYDS_STRING_FIND_HPP
 
+#include <cstddef>
+#include <cstdint>
 #include <vector>
 #include <unordered_map>
 #include <string>
-#include <cinttypes>
 
 namespace Aeasyds::StringFind
 {
@@ -111,6 +112,32 @@ public:
      * @brief Destroy the Horspool object
      */
     ~Horspool() {}
+
+    // From I_Find (Unused)
+    void SetupText(const string& text) {}
+    // From I_Find
+    std::vector<size_t> Find(const string& pattern, const string& text);
+};
+
+class KMP : public I_Find
+{
+private:
+    std::vector<size_t> m_match_retry;
+
+    /**
+     * @brief Process pattern to apply the search algorithm
+     * @param pattern The pattern to be searched
+     */
+    void ProcessPattern(const string& pattern);
+public:
+    /**
+     * @brief Construct a new KMP object
+     */
+    KMP() {}
+    /**
+     * @brief Destroy the KMP object
+     */
+    ~KMP() {}
 
     // From I_Find (Unused)
     void SetupText(const string& text) {}

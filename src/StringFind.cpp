@@ -1,4 +1,6 @@
 #include "StringFind.hpp"
+#include <cstddef>
+#include <vector>
 
 namespace Aeasyds::StringFind
 {
@@ -111,5 +113,52 @@ std::vector<size_t> Horspool::Find(const string& pattern, const string& text)
 }
 
 /* END Horspool */
+
+/* START Kmp */
+
+void KMP::ProcessPattern(const string& pattern)
+{
+    m_match_retry.resize(pattern.length());
+    m_match_retry[0] = 0;
+
+    size_t best_match = 0;
+    for (size_t i = 1; i < pattern.length(); i++)
+    {
+        while (best_match > 0 && pattern[best_match] != pattern[i - 1])
+            best_match = m_match_retry[best_match];
+
+        if(pattern[best_match + 1] == pattern[i - 1])
+            best_match++;
+
+        m_match_retry[i] = best_match;
+    }
+}
+
+std::vector<size_t> KMP::Find(const string& pattern, const string& text)
+{
+    m_match_retry.clear();
+    ProcessPattern(pattern);
+
+    std::vector<size_t> output;
+
+    size_t best_match = 0;
+    for (size_t i = 0; i < text.length(); i++)
+    {
+        while (best_match > 0 && pattern[best_match + 1] != text[i])
+            best_match = m_match_retry[best_match];
+        if(pattern[best_match + 1] == text[i])
+            best_match++;
+        if(best_match == pattern.length())
+        {
+            output.push_back(i);
+            best_match = m_match_retry[best_match];
+        }
+    }
+
+    return output;
+}
+
+
+/* END Kmp */
 
 };
